@@ -1,0 +1,69 @@
+// TODO: Import required packages from bootstrap or use just the grid
+@import "~bootstrap/dist/css/bootstrap.min.css";
+$color-grey: rgb(161, 161, 161);
+html {
+    font-family: -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
+}
+.element-row > div {
+    padding-top: 0.75em;
+    padding-bottom: 0.75em;
+}
+.element-row {
+    border-top: 1px solid rgb(224, 224, 224);
+}
+.details-row {
+    border-top: 1px solid;
+}
+.published-at {
+    /*white-space: nowrap;*/
+}
+.details-row {
+    border: 0;
+    overflow: hidden;
+}
+.news-content {
+    transition: max-height 1s cubic-bezier(0,1,0,1);
+    max-height: 0;
+}
+
+.element-row.expanded + .details-row {
+    .news-content {
+        transition: max-height 1s ease-in-out;
+        max-height: 3000px;
+
+    }
+}
+.news-title {
+    font-weight: 600;
+}
+.news-published-at {
+    color: $color-grey;
+    font-weight: 300;
+}
+.news-origin {
+    color: $color-grey;
+    font-weight: 300;
+}
+.news-content-value {
+    color: rgb(85, 85, 85);
+    margin-bottom: .5em;
+}
+.news-tags {
+    display: block;
+    font-weight: 600;
+    color: rgb(57,73, 171);
+    margin-bottom: .5em;
+}
+.news-href {
+    display: block;
+    color: rgb(214, 214, 214);
+    text-decoration: underline;
+    margin-bottom: .75em;
+}
+.news-title {
+
+}

@@ -1,0 +1,40 @@
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <ng-container *ngFor="let news of postsStream | async">
+                <div class="container-fluid element-row" (click)="expand(news.id)" [class.expanded]="expandedNews[news.id]">
+                    <div class="row ">
+                        <div class="col-12 col-sm-7 col-md-7 col-xl-2">
+                            <span class="news-published-at">{{news.publishedAt | date:'dd-MM-yy hh:mm a'}}</span>
+                        </div>
+                        <div class="col-12 col-sm-5 col-md-5 col-xl-1">
+                            <span>ico</span>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-12 col-xl-9">
+                            <span class="news-title">{{news.title}}</span>
+                            <br>
+                            <span class="news-origin">origin.com.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-fluid details-row">
+                    <div class="row justify-content-end">
+                        <div class="news-content  col-12 col-sm-12 col-md-12 col-xl-9 align-self-end">
+                            <div class="news-content-value">
+                                {{news.content}}
+                            </div>
+                            <div class="news-tags">
+                                #TAG #TAG #TAG
+                            </div>
+                            <div class="news-href">
+                                <a href="{{news.url}}" target="_blank">READ ORIGINAL</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>
