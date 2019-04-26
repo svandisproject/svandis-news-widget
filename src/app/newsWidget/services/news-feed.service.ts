@@ -4,6 +4,8 @@ import {Observable, of} from 'rxjs';
 import {SvandisNewsApiConfig} from '../config/SvandisNewsApiConfig';
 import {News} from '../dataModels/News';
 import {map} from 'rxjs/operators';
+import * as _ from 'lodash';
+
 @Injectable()
 export class NewsFeedService {
     private page = 0;
@@ -14,24 +16,22 @@ export class NewsFeedService {
     }
 
     private objectToQs(obj: object) {
-        if (!obj) {
+        if (!_.isObject(obj)) {
             return '';
         }
         const res = [];
-        for (const key in obj) {
-            if (!obj.hasOwnProperty(key)) {
-                continue;
-            }
-            res.push(key + '=' + encodeURIComponent(obj[key]));
-        }
-        return res.join('&');
+        _(obj).keys().forEach((key) => {
+            res.push(key + '=' + encodeURIComponent( _(obj).get(key) ));
+        });
+
+        return _(res).join('&');
     }
 
     private getRequestUrl(url: string, parameters: object) {
         return `${url}?${this.objectToQs(parameters)}`;
     }
 
-    public getAll(token): Observable<News[]> {
+    public getPage(token): Observable<News[]> {
         if (!token) {
             return of([]);
         }
@@ -39,7 +39,10 @@ export class NewsFeedService {
             page: ++this.page,
             perPage: this.PER_PAGE
         };
-        return this.httpClient.get(this.getRequestUrl(this.URL + '/' + token, parameters))
-            .pipe(map( (res: {data: News[]}) => res.data) );
+        const url = this.getRequestUrl(this.URL + '/' + token, parameters);
+        return this.httpClient.get(url)
+            .pipe(
+                map((res: { data: News[] }) => res.data)
+            );
     }
 }

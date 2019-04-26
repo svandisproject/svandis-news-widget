@@ -5,10 +5,12 @@ import {GeneralNewsWidgetComponent} from './newsWidget/GeneralNewsWidgetComponen
 import {NewsFeedService} from './newsWidget/services/news-feed.service';
 import {HttpClientModule} from '@angular/common/http';
 import {CommonModule} from '@angular/common';
+import {DomainPipe} from './newsWidget/pipes/domain.pipe';
 
 @NgModule({
     declarations: [
-        GeneralNewsWidgetComponent
+        GeneralNewsWidgetComponent,
+        DomainPipe
     ],
     entryComponents: [
         GeneralNewsWidgetComponent

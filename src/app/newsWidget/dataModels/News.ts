@@ -1,3 +1,4 @@
+import {Tag} from './Tag';
 export interface News {
     id: number;
     title: string;
@@ -5,4 +6,5 @@ export interface News {
     url: string;
     content: string;
     publishedAt: string;
+    tags: Tag[];
 }
