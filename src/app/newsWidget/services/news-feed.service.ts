@@ -1,10 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable, of} from 'rxjs';
+import {Observable, empty} from 'rxjs';
 import {SvandisNewsApiConfig} from '../config/SvandisNewsApiConfig';
 import {News} from '../dataModels/News';
 import {map} from 'rxjs/operators';
-import * as _ from 'lodash';
 
 @Injectable()
 export class NewsFeedService {
@@ -15,34 +14,19 @@ export class NewsFeedService {
     constructor(private httpClient: HttpClient) {
     }
 
-    private objectToQs(obj: object) {
-        if (!_.isObject(obj)) {
-            return '';
-        }
-        const res = [];
-        _(obj).keys().forEach((key) => {
-            res.push(key + '=' + encodeURIComponent( _(obj).get(key) ));
-        });
-
-        return _(res).join('&');
-    }
-
-    private getRequestUrl(url: string, parameters: object) {
-        return `${url}?${this.objectToQs(parameters)}`;
-    }
-
     public fetchNewsPage(token): Observable<News[]> {
         if (!token) {
-            return of([]);
+            return empty();
         }
-        const parameters = {
-            page: ++this.page,
-            perPage: this.PER_PAGE
+        const params = {
+            page: (++this.page).toString(),
+            perPage: (this.PER_PAGE).toString()
         };
-        const url = this.getRequestUrl(this.URL + '/' + token, parameters);
-        return this.httpClient.get(url)
+        return this.httpClient.get(this.URL + '/' + token, { params})
             .pipe(
                 map((res: { data: News[] }) => res.data)
             );
     }
+
+
 }

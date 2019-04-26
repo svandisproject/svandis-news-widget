@@ -1,11 +1,13 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit,
+    ChangeDetectionStrategy, Component, Input, OnInit,
     ViewEncapsulation
 } from '@angular/core';
 import {NewsFeedService} from './services/news-feed.service';
 import {News} from './dataModels/News';
 import * as _ from 'lodash';
 import {Tag} from './dataModels/Tag';
+import {BehaviorSubject, combineLatest} from 'rxjs';
+import {take} from 'rxjs/operators';
 @Component({
     selector: 'app-svandis-news',
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -14,16 +16,24 @@ import {Tag} from './dataModels/Tag';
     encapsulation: ViewEncapsulation.None
 })
 export class GeneralNewsWidgetComponent implements OnInit {
-    @Input() filters: string;
-    public posts: News[] = [];
+    @Input() token: string;
+    public postsSubject: BehaviorSubject<News[]> = new BehaviorSubject([]);
     public expandedNews = {};
-    public readonly ICON_TAGS_CLASSES = {
-        Bullish: 'arrow_upward',
-        Bearish: 'arrow_downward',
-        Important: 'warning'
-    };
-    constructor(public newsFeedService: NewsFeedService,
-                private changeDetector: ChangeDetectorRef) {
+    public readonly ICON_TAGS_CLASSES = [
+        {
+            title: 'Bullish',
+            icon: 'arrow_upward'
+        },
+        {
+            title: 'Bearish',
+            icon: 'arrow_downward'
+        },
+        {
+            title: 'Important',
+            icon: 'warning'
+        }
+    ];
+    constructor(public newsFeedService: NewsFeedService) {
     }
 
     ngOnInit() {
@@ -31,21 +41,14 @@ export class GeneralNewsWidgetComponent implements OnInit {
     }
 
     public getIcon(tags: Tag[]) {
-        const icoTags = _(this.ICON_TAGS_CLASSES).keys().value();
-        for (const tag of tags) {
-            const title = _(tag).get('title');
-            if ( _(icoTags).indexOf(title) > -1 ) {
-                return this.ICON_TAGS_CLASSES[title];
-            }
-        }
-        return '';
+        return _.intersectionBy(this.ICON_TAGS_CLASSES, tags, 'title')
+            .map(v => _(v).get('icon'));
     }
 
     public getNewsStream() {
-        this.newsFeedService.fetchNewsPage(this.filters).subscribe(v => {
-            this.posts = _([]).concat(this.posts, v).value();
-            this.changeDetector.detectChanges();
-
+        combineLatest(this.postsSubject.pipe(take(1)), this.newsFeedService.fetchNewsPage(this.token))
+            .subscribe(([old, res]) => {
+                this.postsSubject.next( _.concat(_.cloneDeep(old), (_.cloneDeep(res))) );
         });
     }
 

@@ -99,6 +99,9 @@ html {
         padding-right: 0 !important;
     }
 }
+.icon-col {
+    min-width: 72px;
+}
 @media (min-width: 768px) {
     .icon-col {
         text-align: right;
