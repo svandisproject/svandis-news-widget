@@ -48,7 +48,9 @@ export class GeneralNewsWidgetComponent implements OnInit {
     public getNewsStream() {
         combineLatest(this.postsSubject.pipe(take(1)), this.newsFeedService.fetchNewsPage(this.token))
             .subscribe(([old, res]) => {
-                this.postsSubject.next( _.concat(_.cloneDeep(old), (_.cloneDeep(res))) );
+                if (res) {
+                    this.postsSubject.next( _.concat(_.cloneDeep(old), (_.cloneDeep(res))) );
+                }
         });
     }
 
@@ -56,7 +58,6 @@ export class GeneralNewsWidgetComponent implements OnInit {
         const newVal = !(_.get(this.expandedNews, newsId));
         _.set(this.expandedNews, newsId + '', newVal);
     }
-    
 
 }
 

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable, empty} from 'rxjs';
+import {Observable, EMPTY} from 'rxjs';
 import {SvandisNewsApiConfig} from '../config/SvandisNewsApiConfig';
 import {News} from '../dataModels/News';
 import {map} from 'rxjs/operators';
@@ -16,7 +16,7 @@ export class NewsFeedService {
 
     public fetchNewsPage(token): Observable<News[]> {
         if (!token) {
-            return empty();
+            return EMPTY;
         }
         const params = {
             page: (++this.page).toString(),
