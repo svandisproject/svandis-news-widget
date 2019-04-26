@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, Component, Input, OnInit,
+    ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit,
     ViewEncapsulation
 } from '@angular/core';
 import {NewsFeedService} from './services/news-feed.service';
@@ -22,7 +22,8 @@ export class GeneralNewsWidgetComponent implements OnInit {
         Bearish: 'arrow_downward',
         Important: 'warning'
     };
-    constructor(public newsFeedService: NewsFeedService) {
+    constructor(public newsFeedService: NewsFeedService,
+                private changeDetector: ChangeDetectorRef) {
     }
 
     ngOnInit() {
@@ -41,8 +42,10 @@ export class GeneralNewsWidgetComponent implements OnInit {
     }
 
     public getNewsStream() {
-        this.newsFeedService.getPage(this.filters).subscribe(v => {
+        this.newsFeedService.fetchNewsPage(this.filters).subscribe(v => {
             this.posts = _([]).concat(this.posts, v).value();
+            this.changeDetector.detectChanges();
+
         });
     }
 

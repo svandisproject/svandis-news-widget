@@ -31,7 +31,7 @@ export class NewsFeedService {
         return `${url}?${this.objectToQs(parameters)}`;
     }
 
-    public getPage(token): Observable<News[]> {
+    public fetchNewsPage(token): Observable<News[]> {
         if (!token) {
             return of([]);
         }
