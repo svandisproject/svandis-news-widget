@@ -1,22 +1,32 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable, of} from 'rxjs';
+import {Observable, EMPTY} from 'rxjs';
+import {SvandisNewsApiConfig} from '../config/SvandisNewsApiConfig';
+import {News} from '../dataModels/News';
+import {map} from 'rxjs/operators';
 
 @Injectable()
 export class NewsFeedService {
-
-    private readonly URL = 'apiUrl';
+    private page = 0;
+    private readonly PER_PAGE = 10;
+    private readonly URL = SvandisNewsApiConfig.API_HOST + '/news';
 
     constructor(private httpClient: HttpClient) {
     }
 
-
-    // TODO: Remove mocks and add types
-    public getAll(): Observable<any[]> {
-        return of([
-            {id: 1, title: 'test-1'},
-            {id: 2, title: 'test-2'},
-            {id: 3, title: 'test-3'},
-        ]);
+    public fetchNewsPage(token): Observable<News[]> {
+        if (!token) {
+            return EMPTY;
+        }
+        const params = {
+            page: (++this.page).toString(),
+            perPage: (this.PER_PAGE).toString()
+        };
+        return this.httpClient.get(this.URL + '/' + token, { params})
+            .pipe(
+                map((res: { data: News[] }) => res.data)
+            );
     }
+
+
 }

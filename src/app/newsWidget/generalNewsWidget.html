@@ -1,0 +1,39 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+<div class="container-fluid">
+    <div class="row justify-content-center row-no-padding">
+        <div class="col-8">
+            <ng-container *ngFor="let news of postsSubject | async">
+                <div class="container-fluid element-row" (click)="expand(news.id)" [class.expanded]="expandedNews[news.id]">
+                    <div class="row ">
+                        <div class="col-11 col-sm-7 col-md-7 col-xl-auto">
+                            <span class="news-published-at">{{news.publishedAt | date:'dd-MM-yy hh:mm a'}}</span>
+                        </div>
+                        <div class="col-1 col-sm-5 col-md-5 col-xl-1 justify-content-center icon-col">
+                            <i *ngFor="let icon of getIcon(news.tags)" class="material-icons {{icon}}" >{{icon}}</i>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-12 col-xl-9">
+                            <span class="news-title">{{news.title}}</span>
+                            <br>
+                            <span class="news-origin">{{ news.source | domain }}</span>
+                            <div class="news-content">
+                                <div class="news-content-value">
+                                    {{news.content}}
+                                </div>
+                                <div class="news-tags">
+                                    <span class="tag" *ngFor="let tag of news.tags">#{{tag.title}}</span>
+                                </div>
+                                <div class="news-href">
+                                    <a href="{{news.url}}" target="_blank">READ ORIGINAL</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+    <div class="row justify-content-center button-container" (click)="getNewsStream()">
+        <button type="button" class="btn btn-outline-primary">Load More</button>
+    </div>
+</div>
