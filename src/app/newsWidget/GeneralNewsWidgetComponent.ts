@@ -56,6 +56,7 @@ export class GeneralNewsWidgetComponent implements OnInit {
         const newVal = !(_.get(this.expandedNews, newsId));
         _.set(this.expandedNews, newsId + '', newVal);
     }
+    
 
 }
 
