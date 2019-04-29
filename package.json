@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "node server.js",
+    "start:dev": "ng serve",
+    "postinstall": "npm run build:elements",
     "build": "ng build",
     "build:elements": "ng build --prod --output-hashing none && node elements-build.js",
     "test": "ng test",
@@ -24,6 +26,7 @@
     "@types/lodash": "^4.14.123",
     "bootstrap": "^4.3.1",
     "core-js": "^2.5.4",
+    "express": "^4.16.4",
     "lodash": "^4.17.11",
     "lodash.intersectionwith": "^4.4.0",
     "rxjs": "~6.3.3",
