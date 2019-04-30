@@ -5,11 +5,11 @@
         <div class="col-12">
             <ng-container *ngFor="let news of getPostStream() | async">
                 <div class="element-row" (click)="expand(news.id)" [class.expanded]="expandedNews[news.id]">
-                    <div class="row p-0 align-items-center">
-                        <div class="col-sm-12 col-md-2">
+                    <div class="row align-items-center">
+                        <div class="col-sm-12 col-md-3">
                             <span class="news-published-at">{{news.publishedAt | date:'dd-MM-yy hh:mm a'}}</span>
                         </div>
-                        <div class="col-sm-12 col-md-10">
+                        <div class="col-sm-12 col-md-9">
                             <span class="news-title">
                                 {{news.title}}
                                 <i *ngFor="let icon of getIcon(news.tags)" class="material-icons {{icon}}">{{icon}}</i>
