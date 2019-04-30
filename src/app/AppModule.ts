@@ -15,6 +15,10 @@ import {DomainPipe} from './newsWidget/pipes/domain.pipe';
     entryComponents: [
         GeneralNewsWidgetComponent
     ],
+    exports: [
+        GeneralNewsWidgetComponent,
+        DomainPipe
+    ],
     imports: [
         CommonModule,
         HttpClientModule,
