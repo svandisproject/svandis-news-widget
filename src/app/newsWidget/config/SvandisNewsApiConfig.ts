@@ -1,3 +1,3 @@
 export class SvandisNewsApiConfig {
-    public static readonly API_HOST = 'http://svandis-news.herokuapp.com';
+    public static readonly API_HOST = 'https://svandis-news.herokuapp.com';
 }
