@@ -1,13 +1,11 @@
-import {
-    ChangeDetectionStrategy, Component, Input, OnInit,
-    ViewEncapsulation
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import {NewsFeedService} from './services/news-feed.service';
 import {News} from './dataModels/News';
 import * as _ from 'lodash';
 import {Tag} from './dataModels/Tag';
-import {BehaviorSubject, combineLatest} from 'rxjs';
+import {BehaviorSubject, combineLatest, Observable} from 'rxjs';
 import {take} from 'rxjs/operators';
+
 @Component({
     selector: 'app-svandis-news',
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -17,7 +15,6 @@ import {take} from 'rxjs/operators';
 })
 export class GeneralNewsWidgetComponent implements OnInit {
     @Input() token: string;
-    public postsSubject: BehaviorSubject<News[]> = new BehaviorSubject([]);
     public expandedNews = {};
     public readonly ICON_TAGS_CLASSES = [
         {
@@ -33,6 +30,8 @@ export class GeneralNewsWidgetComponent implements OnInit {
             icon: 'warning'
         }
     ];
+    private postsSubject: BehaviorSubject<News[]> = new BehaviorSubject([]);
+
     constructor(public newsFeedService: NewsFeedService) {
     }
 
@@ -49,14 +48,18 @@ export class GeneralNewsWidgetComponent implements OnInit {
         combineLatest(this.postsSubject.pipe(take(1)), this.newsFeedService.fetchNewsPage(this.token))
             .subscribe(([old, res]) => {
                 if (res) {
-                    this.postsSubject.next( _.concat(_.cloneDeep(old), (_.cloneDeep(res))) );
+                    this.postsSubject.next(_.concat(_.cloneDeep(old), (_.cloneDeep(res))));
                 }
-        });
+            });
     }
 
     public expand(newsId) {
         const newVal = !(_.get(this.expandedNews, newsId));
         _.set(this.expandedNews, newsId + '', newVal);
+    }
+
+    public getPostStream(): Observable<News[]> {
+        return this.postsSubject.asObservable();
     }
 
 }
