@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable, EMPTY} from 'rxjs';
+import {EMPTY, Observable} from 'rxjs';
 import {SvandisNewsApiConfig} from '../config/SvandisNewsApiConfig';
 import {News} from '../dataModels/News';
 import {map} from 'rxjs/operators';
+import * as _ from 'lodash';
 
 @Injectable()
 export class NewsFeedService {
@@ -24,7 +25,11 @@ export class NewsFeedService {
         };
         return this.httpClient.get(this.URL + '/' + token, { params})
             .pipe(
-                map((res: { data: News[] }) => res.data)
+                map((res: { data: News[] }) => res.data),
+                map((news) => _.map(news, n => {
+                    n.content = _.truncate(n.content, {length: 200, separator: '.'});
+                    return n;
+                }))
             );
     }
 
