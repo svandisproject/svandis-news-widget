@@ -16,8 +16,11 @@ html {
 }
 
 .element-row {
-    border-top: 1px solid rgb(224, 224, 224);
     border-bottom: 1px solid rgb(224, 224, 224);
+}
+
+.element-row:first-child {
+    border-top: 1px solid rgb(224, 224, 224);
 }
 
 .element-row .news-content {
