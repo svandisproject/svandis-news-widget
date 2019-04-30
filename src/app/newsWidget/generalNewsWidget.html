@@ -1,19 +1,19 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
-<div class="container-fluid">
-    <div class="row justify-content-center row-no-padding">
-        <div class="col-8">
+<div class="container-fluid mt-5">
+    <div class="row justify-content-center">
+        <div class="col-12">
             <ng-container *ngFor="let news of getPostStream() | async">
-                <div class="container-fluid element-row" (click)="expand(news.id)" [class.expanded]="expandedNews[news.id]">
-                    <div class="row ">
-                        <div class="col-11 col-sm-7 col-md-7 col-xl-auto">
+                <div class="element-row" (click)="expand(news.id)" [class.expanded]="expandedNews[news.id]">
+                    <div class="row p-0 align-items-center">
+                        <div class="col-sm-12 col-md-2">
                             <span class="news-published-at">{{news.publishedAt | date:'dd-MM-yy hh:mm a'}}</span>
                         </div>
-                        <div class="col-1 col-sm-5 col-md-5 col-xl-1 justify-content-center icon-col">
-                            <i *ngFor="let icon of getIcon(news.tags)" class="material-icons {{icon}}" >{{icon}}</i>
-                        </div>
-                        <div class="col-12 col-sm-12 col-md-12 col-xl-9">
-                            <span class="news-title">{{news.title}}</span>
+                        <div class="col-sm-12 col-md-10">
+                            <span class="news-title">
+                                {{news.title}}
+                                <i *ngFor="let icon of getIcon(news.tags)" class="material-icons {{icon}}">{{icon}}</i>
+                            </span>
                             <br>
                             <span class="news-origin">{{ news.source | domain }}</span>
                             <div class="news-content">
@@ -33,7 +33,9 @@
             </ng-container>
         </div>
     </div>
-    <div class="row justify-content-center button-container" (click)="getNewsStream()">
-        <button type="button" class="btn btn-outline-primary">Load More</button>
+    <div class="row mt-4" (click)="getNewsStream()">
+        <div class="col-12 text-center button-container">
+            <button type="button" class="btn btn-outline-primary">Load More</button>
+        </div>
     </div>
 </div>
