@@ -2,7 +2,7 @@
       rel="stylesheet">
 <div class="container-fluid">
     <div class="row justify-content-center row-no-padding">
-        <div class="col-8">
+        <div class="col-12">
             <ng-container *ngFor="let news of getPostStream() | async">
                 <div class="container-fluid element-row" (click)="expand(news.id)" [class.expanded]="expandedNews[news.id]">
                     <div class="row ">
