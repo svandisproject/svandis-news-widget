@@ -1,5 +1,6 @@
 // TODO: Import required packages from bootstrap or use just the grid
 @import "~bootstrap/dist/css/bootstrap.min.css";
+
 $color-grey: rgb(161, 161, 161);
 
 html {
@@ -24,7 +25,7 @@ html {
 }
 
 .element-row .news-content {
-    transition: max-height 1s cubic-bezier(0,1,0,1);
+    transition: max-height 1s cubic-bezier(0, 1, 0, 1);
     max-height: 0;
     border: 0;
     overflow: hidden;
@@ -58,11 +59,13 @@ html {
 .news-tags {
     display: flex;
     font-weight: 600;
-    color: rgb(57,73, 171);
+    color: rgb(57, 73, 171);
     margin-bottom: .5em;
     flex-wrap: wrap;
+
     .tag {
         margin-right: .1em;
+
         &:last-child {
             margin-right: 0;
         }
@@ -75,6 +78,7 @@ html {
     text-decoration: underline;
     margin-bottom: .75em;
 }
+
 .date-container {
     white-space: nowrap;
 }
@@ -102,19 +106,46 @@ html {
         padding-right: 0 !important;
     }
 }
+
 .icon-col {
     min-width: 72px;
+}
+
+.svan-logo {
+    height: 30px;
+}
+
+.dark-theme {
+    .news-title {
+        color: #fff;
+    }
+
+    .news-origin, .news-published-at, .powered-by-svandis {
+        color: #e4e4e4
+    }
+}
+
+.light-theme {
+    .news-title {
+        color: #000;
+    }
+
+    .news-origin, .news-published-at, .powered-by-svandis {
+        color: #6a6a6a
+    }
 }
 @media (min-width: 768px) {
     .icon-col {
         text-align: right;
     }
 }
+
 @media (min-width: 576px) {
     .icon-col {
         text-align: right;
     }
 }
+
 @media (min-width: 1200px) {
     .icon-col {
         text-align: center;
